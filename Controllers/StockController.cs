@@ -1,5 +1,6 @@
 
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ using WebApi.Repositories;
 namespace WebApi.Controllers;
 [ApiController]
 [Route("api/stocks")]
+[Authorize]
 public class StockController : ControllerBase
 {
     private readonly IStockRepository _stockRepository;

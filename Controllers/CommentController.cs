@@ -1,4 +1,5 @@
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dtos.Comment;
 using WebApi.Interfaces;
@@ -7,6 +8,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/comments")]
+[Authorize]
 public class CommentController : ControllerBase
 {
     private readonly ICommentRepository _commentRepository;
