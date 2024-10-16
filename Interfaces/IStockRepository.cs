@@ -9,7 +9,8 @@ namespace WebApi.Interfaces;
 public interface IStockRepository
 {
     Task<PaginationResults<StockDto>> GetStocksAsync(QueryObject query);
-    Task<Stock> GetStockByIdAsync(int id);
+    Task<Stock?> GetStockByIdAsync(int id);
+    Task<Stock?> GetStockBySymbolAsync(string symbol);
     Task<Stock> CreateStockAsync(CreateStockRequestDto stock);
     Task<Stock> UpdateStockAsync(UpdateStockRequestDto stock, int id);
     Task DeleteStockAsync(int id);
