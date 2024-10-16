@@ -18,15 +18,15 @@ public class CommentRepository : ICommentRepository
     
     public async Task<List<Comment>> GetCommentsAsync()
     {
-        return await _context.Comments.ToListAsync();
+        return await _context.Comments.Include(x => x.AppUser).ToListAsync();
     }
     
     public async Task<Comment?> GetCommentByIdAsync(int id)
     {
-        return await _context.Comments.FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Comments.Include(x => x.AppUser).FirstOrDefaultAsync(x => x.Id == id);
     }
     
-    public async Task<Comment> CreateCommentAsync(CreateCommentRequestDto comment)
+    public async Task<Comment> CreateCommentAsync(CreateCommentRequestDto comment, string AppUserId)
     {
         var newComment= new Comment
         {
@@ -35,6 +35,8 @@ public class CommentRepository : ICommentRepository
             CreatedOn = comment.CreatedOn,
             Title = comment.Title
         };
+        
+       newComment.AppUserId = AppUserId;
 
         _context.Comments.Add(newComment);
         await _context.SaveChangesAsync();

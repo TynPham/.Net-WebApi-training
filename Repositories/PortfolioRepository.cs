@@ -1,5 +1,7 @@
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Context;
+using WebApi.Dtos.Comment;
 using WebApi.Interfaces;
 using WebApi.Model;
 
@@ -23,7 +25,7 @@ public class PortfolioRepository : IPortfolioRepository
                 Purchase = stock.Stock.Purchase,
                 LastDiv = stock.Stock.LastDiv,
                 Industry = stock.Stock.Industry,
-                MarketCap = stock.Stock.MarketCap
+                MarketCap = stock.Stock.MarketCap,
             }).ToListAsync();
     }
     

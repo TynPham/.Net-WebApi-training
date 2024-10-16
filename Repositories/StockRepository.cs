@@ -30,7 +30,11 @@ public class StockRepository : IStockRepository
         var take = query.limit;
         var skip = (query.page - 1) * take;
         var total = await stocks.CountAsync();
-        var response = await stocks.Skip(skip).Take(take).Include(x => x.Comments).ToListAsync();
+        var response = await stocks.Skip(skip).Take(take).Include(x => x.Comments).ThenInclude(a => a.AppUser).ToListAsync();
+        
+        TypeAdapterConfig<Comment, CommentStockDto>.NewConfig()
+            .Map(dest => dest.createdBy, src => src.AppUser.UserName);
+        
         var items  = response.Adapt<List<StockDto>>();
         
         var results = new PaginationResults<StockDto>(items, total, query.page, query.limit);
@@ -40,7 +44,7 @@ public class StockRepository : IStockRepository
 
     public async Task<Stock?> GetStockByIdAsync(int id)
     {
-        return await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Stocks.Include(x => x.Comments).ThenInclude(a => a.AppUser).FirstOrDefaultAsync(x => x.Id == id);
     }
     
     public async Task<Stock?> GetStockBySymbolAsync(string symbol)
